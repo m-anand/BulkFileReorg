@@ -100,12 +100,13 @@ class MainArea(tk.Frame):
         file_stems = [Path(self.file_list[i]).relative_to(self.source_file_path) for i in que]
 
         for subject_path in Path(parent_directory).iterdir():
-            for file_stem in file_stems:
-                in_path = subject_path/file_stem  # source file
-                if in_path.is_file():
-                    out_path = Path(self.destination_file_path)/Path(subject_path).name/file_stem # destination file
-                    Path(out_path.parents[0]).mkdir(parents=True, exist_ok=True)    # create destination foldr if it does not exist
-                    shutil.copyfile(in_path,out_path)
+            if subject_path.is_dir():
+                for file_stem in file_stems:
+                    in_path = subject_path/file_stem  # source file
+                    if in_path.is_file():
+                        out_path = Path(self.destination_file_path)/Path(subject_path).name/file_stem # destination file
+                        Path(out_path.parents[0]).mkdir(parents=True, exist_ok=True)    # create destination foldr if it does not exist
+                        shutil.copyfile(in_path,out_path)
 
 
 
