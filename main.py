@@ -3,9 +3,7 @@ from tkinter import filedialog, ttk
 from pathlib import Path
 import shutil
 
-from bs4 import BeautifulSoup
-import subprocess, json, threading, statistics, time, webbrowser, os, re
-import concurrent.futures
+
 
 
 name = 'BFR'
@@ -103,16 +101,11 @@ class MainArea(tk.Frame):
 
         for subject_path in Path(parent_directory).iterdir():
             for file_stem in file_stems:
-                in_path = subject_path/file_stem
-                out_path = Path(self.destination_file_path)/Path(subject_path).name/file_stem
-                # print(out_path.parents[0])
-                Path(out_path.parents[0]).mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(in_path,out_path)
-            # out_path = Path(self.destination_file_path)/Path(path)
-            # Path(self.destination_file_path).mkdir
-
-
-
+                in_path = subject_path/file_stem  # source file
+                if in_path.is_file():
+                    out_path = Path(self.destination_file_path)/Path(subject_path).name/file_stem # destination file
+                    Path(out_path.parents[0]).mkdir(parents=True, exist_ok=True)    # create destination foldr if it does not exist
+                    shutil.copyfile(in_path,out_path)
 
 
 
